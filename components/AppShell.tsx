@@ -97,7 +97,6 @@ export function AppShell({ user, children }: AppShellProps) {
               <p className="text-lg font-semibold">Event Platform</p>
             </div>
             <div className="hidden items-center gap-1 lg:flex">
-              <ThemeToggle compact />
               <Button
                 variant="ghost"
                 size="icon"
@@ -136,7 +135,8 @@ export function AppShell({ user, children }: AppShellProps) {
             })}
           </nav>
 
-          <div className="mt-auto pt-4">
+          <div className="mt-auto pt-4 flex flex-col gap-2">
+            <ThemeToggle fullWidth={!collapsed} compact={collapsed} />
             <LogoutButton fullWidth={!collapsed} compact={collapsed} />
           </div>
         </aside>

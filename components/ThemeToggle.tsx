@@ -5,12 +5,14 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type ThemeToggleProps = {
   compact?: boolean;
+  fullWidth?: boolean;
 };
 
-export function ThemeToggle({ compact }: ThemeToggleProps) {
+export function ThemeToggle({ compact, fullWidth }: ThemeToggleProps) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -20,8 +22,14 @@ export function ThemeToggle({ compact }: ThemeToggleProps) {
 
   if (!mounted) {
     return (
-      <Button variant="outline" size={compact ? "icon" : "sm"} disabled>
+      <Button
+        variant="outline"
+        size={fullWidth ? "default" : compact ? "icon" : "sm"}
+        className={cn(fullWidth && "w-full", compact && fullWidth && "px-0")}
+        disabled
+      >
         <Sun className="h-4 w-4" />
+        {!compact ? "Light Mode" : null}
       </Button>
     );
   }
@@ -33,12 +41,13 @@ export function ThemeToggle({ compact }: ThemeToggleProps) {
     <Button
       type="button"
       variant="outline"
-      size={compact ? "icon" : "sm"}
+      size={fullWidth ? "default" : compact ? "icon" : "sm"}
+      className={cn(fullWidth && "w-full", compact && fullWidth && "px-0")}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      {!compact ? (isDark ? "Light" : "Dark") : null}
+      {isDark ? <Sun className="h-4 w-4 shrink-0" /> : <Moon className="h-4 w-4 shrink-0" />}
+      {!compact ? (isDark ? "Light Mode" : "Dark Mode") : null}
     </Button>
   );
 }
