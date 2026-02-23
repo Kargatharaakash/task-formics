@@ -5,14 +5,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type DeleteEventButtonProps = {
   eventId: string;
   redirectTo?: string;
-  size?: "default" | "sm";
+  size?: "default" | "sm" | "icon";
+  iconOnlyOnMobile?: boolean;
 };
 
-export function DeleteEventButton({ eventId, redirectTo, size = "sm" }: DeleteEventButtonProps) {
+export function DeleteEventButton({ eventId, redirectTo, size = "sm", iconOnlyOnMobile }: DeleteEventButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,9 +46,18 @@ export function DeleteEventButton({ eventId, redirectTo, size = "sm" }: DeleteEv
   }
 
   return (
-    <Button type="button" variant="destructive" size={size} onClick={handleDelete} disabled={isLoading}>
+    <Button
+      type="button"
+      variant="destructive"
+      size={iconOnlyOnMobile ? "sm" : size}
+      className={cn(iconOnlyOnMobile && "max-sm:px-2")}
+      onClick={handleDelete}
+      disabled={isLoading}
+    >
       <Trash2 className="h-4 w-4" />
-      {isLoading ? "Deleting..." : "Delete"}
+      <span className={cn(iconOnlyOnMobile && "max-sm:hidden", "ml-2")}>
+        {isLoading ? "Deleting..." : "Delete"}
+      </span>
     </Button>
   );
 }

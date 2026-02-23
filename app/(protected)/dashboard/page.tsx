@@ -89,35 +89,38 @@ export default async function DashboardPage() {
             View all
           </Link>
         </div>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-sm">
-              <thead>
+        <CardContent className="p-0 sm:p-6">
+          <div className="w-full overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="hidden sm:table-header-group">
                 <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
                   <th className="px-2 py-2 font-medium">Title</th>
                   <th className="px-2 py-2 font-medium">Start</th>
-                  <th className="px-2 py-2 font-medium">End</th>
-                  {user.role === Role.ADMIN ? <th className="px-2 py-2 font-medium">Owner</th> : null}
+                  <th className="hidden lg:table-cell px-2 py-2 font-medium">End</th>
+                  {user.role === Role.ADMIN ? <th className="hidden lg:table-cell px-2 py-2 font-medium">Owner</th> : null}
                 </tr>
               </thead>
               <tbody>
                 {upcomingEvents.length === 0 ? (
                   <tr>
-                    <td colSpan={user.role === Role.ADMIN ? 4 : 3} className="px-2 py-4 text-muted-foreground">
+                    <td colSpan={user.role === Role.ADMIN ? 4 : 3} className="p-4 text-center text-muted-foreground">
                       No upcoming events.
                     </td>
                   </tr>
                 ) : (
-                  upcomingEvents.map((event) => (
-                    <tr key={event.id} className="border-b border-border/50">
-                      <td className="px-2 py-2">
-                        <Link className="font-medium text-primary hover:underline" href={`/events/${event.id}`}>
+                  upcomingEvents.map((event: any) => (
+                    <tr key={event.id} className="flex flex-col sm:table-row border-b border-border/50 p-4 sm:p-0">
+                      <td className="sm:px-2 sm:py-2 mb-1 sm:mb-0">
+                        <Link className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
                           {event.title}
                         </Link>
+                        <div className="text-xs text-muted-foreground sm:hidden mt-0.5">
+                          {formatDateTime(event.startDateTime)}
+                        </div>
                       </td>
-                      <td className="px-2 py-2 text-muted-foreground">{formatDateTime(event.startDateTime)}</td>
-                      <td className="px-2 py-2 text-muted-foreground">{formatDateTime(event.endDateTime)}</td>
-                      {user.role === Role.ADMIN ? <td className="px-2 py-2">{event.createdBy.name}</td> : null}
+                      <td className="hidden sm:table-cell px-2 py-2 text-muted-foreground">{formatDateTime(event.startDateTime)}</td>
+                      <td className="hidden lg:table-cell px-2 py-2 text-muted-foreground">{formatDateTime(event.endDateTime)}</td>
+                      {user.role === Role.ADMIN ? <td className="hidden lg:table-cell px-2 py-2 text-muted-foreground">{event.createdBy.name}</td> : null}
                     </tr>
                   ))
                 )}
