@@ -247,7 +247,12 @@ export function EventsCalendar() {
           eventDisplay="block"
           dayMaxEvents
           listDayFormat={{ weekday: "long", month: "short", day: "numeric" }}
-          dayHeaderFormat={{ weekday: "short", day: "numeric", month: "numeric" }}
+          dayHeaderContent={(arg) => {
+            const date = arg.date;
+            const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(date);
+            if (arg.view.type === "dayGridMonth") return weekday;
+            return `${weekday} ${date.getDate()}/${date.getMonth() + 1}`;
+          }}
           buttonText={{
             today: "Today",
             month: "Month",
