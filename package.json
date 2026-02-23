@@ -10,7 +10,8 @@
     "db:push": "prisma db push",
     "db:init": "rm -f prisma/dev.db && prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/init.sql && sqlite3 prisma/dev.db < prisma/init.sql",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.20",
