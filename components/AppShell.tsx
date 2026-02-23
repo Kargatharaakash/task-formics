@@ -91,8 +91,8 @@ export function AppShell({ user, children }: AppShellProps) {
             collapsed && "lg:w-20"
           )}
         >
-          <div className="mb-4 flex items-center justify-between">
-            <div className={cn("transition-opacity", collapsed && "lg:opacity-0")}>
+          <div className={cn("mb-4 flex items-center", collapsed ? "lg:justify-center" : "justify-between")}>
+            <div className={cn("transition-opacity", collapsed && "lg:hidden")}>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">Workspace</p>
               <p className="text-lg font-semibold">Event Platform</p>
             </div>
