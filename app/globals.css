@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 6%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 6%;
+  --primary: 0 0% 7%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 43%;
+  --accent: 0 0% 94%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 73% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 0 0% 7%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 96%;
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 96%;
+  --primary: 0 0% 96%;
+  --primary-foreground: 0 0% 8%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 96%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 0 0% 16%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 63% 40%;
+  --destructive-foreground: 0 0% 96%;
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+  --ring: 0 0% 90%;
+}
+
+* {
+  @apply border-border;
+}
+
+html,
+body {
+  @apply h-full;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  font-family: "Avenir Next", "Avenir", "Segoe UI", "Helvetica Neue", sans-serif;
+  background-image:
+    radial-gradient(circle at 90% -5%, rgba(0, 0, 0, 0.035) 0, transparent 40%),
+    radial-gradient(circle at -15% 100%, rgba(0, 0, 0, 0.03) 0, transparent 40%);
+  background-attachment: fixed;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(circle at 90% -5%, rgba(255, 255, 255, 0.06) 0, transparent 40%),
+    radial-gradient(circle at -15% 100%, rgba(255, 255, 255, 0.04) 0, transparent 40%);
+}
+
+a {
+  @apply text-inherit no-underline;
+}
+
+/* FullCalendar visual integration */
+.fc {
+  --fc-border-color: hsl(var(--border));
+  --fc-button-text-color: hsl(var(--primary-foreground));
+  --fc-button-bg-color: hsl(var(--primary));
+  --fc-button-border-color: hsl(var(--primary));
+  --fc-button-hover-bg-color: hsl(var(--foreground));
+  --fc-button-hover-border-color: hsl(var(--foreground));
+  --fc-button-active-bg-color: hsl(var(--foreground));
+  --fc-button-active-border-color: hsl(var(--foreground));
+  --fc-page-bg-color: hsl(var(--card));
+  --fc-neutral-bg-color: hsl(var(--secondary));
+  --fc-event-bg-color: hsl(var(--accent));
+  --fc-event-border-color: hsl(var(--border));
+  --fc-event-text-color: hsl(var(--accent-foreground));
+}
+
+.fc .fc-toolbar-title {
+  @apply text-lg font-semibold;
+}
+
+.fc .fc-button {
+  @apply rounded-md text-sm font-medium;
+}
+
+/* Make right-side view switcher feel like a segmented toggle */
+.fc .fc-toolbar-chunk:last-child .fc-button-group {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  background: hsl(var(--card));
+}
+
+.fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: hsl(var(--muted-foreground)) !important;
+  box-shadow: none !important;
+  padding-inline: 0.9rem !important;
+}
+
+.fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button + .fc-button {
+  border-left: 1px solid hsl(var(--border)) !important;
+}
+
+.fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button.fc-button-active {
+  background: hsl(var(--foreground)) !important;
+  color: hsl(var(--background)) !important;
+}
+
+.fc .fc-daygrid-day-number {
+  @apply text-sm text-muted-foreground;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  @apply px-1 py-1;
+}
+
+.fc .fc-daygrid-event {
+  @apply rounded-md px-1;
+}
+
+/* Reduce heavy box-grid look */
+.fc .fc-scrollgrid {
+  border: 0 !important;
+}
+
+.fc .fc-theme-standard td,
+.fc .fc-theme-standard th {
+  border: 0 !important;
+}
+
+.fc .fc-col-header {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.fc .fc-daygrid-day {
+  border-top: 1px solid hsl(var(--border) / 0.45) !important;
+}
+
+.fc .fc-daygrid-day-frame {
+  min-height: 88px;
+}
+
+.fc .fc-list {
+  border: 0;
+}
+
+.fc .fc-list-day-cushion {
+  background: hsl(var(--secondary));
+}
+
+@media (max-width: 768px) {
+  .fc .fc-header-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .fc .fc-header-toolbar .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+  }
+
+  .fc .fc-header-toolbar .fc-toolbar-chunk:first-child {
+    justify-content: space-between;
+  }
+
+  .fc .fc-header-toolbar .fc-toolbar-chunk:nth-child(2) {
+    justify-content: center;
+  }
+
+  .fc .fc-header-toolbar .fc-toolbar-chunk:last-child {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .fc .fc-header-toolbar .fc-toolbar-chunk:last-child::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+
+  .fc .fc-button {
+    padding: 0.32rem 0.56rem;
+    font-size: 0.75rem;
+  }
+
+  .fc .fc-toolbar-chunk:last-child .fc-button-group {
+    min-width: max-content;
+  }
+
+  .fc .fc-toolbar-chunk:last-child .fc-button-group .fc-button {
+    padding-inline: 0.72rem !important;
+  }
+
+  .fc .fc-daygrid-day-frame {
+    min-height: 68px;
+  }
+}
