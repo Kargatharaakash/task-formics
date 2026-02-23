@@ -109,10 +109,7 @@ export function AppShell({ user, children }: AppShellProps) {
             </div>
           </div>
 
-          <div className={cn("mb-4 rounded-lg border border-border/80 bg-secondary/40 p-3", collapsed && "lg:px-2")}>
-            <p className={cn("truncate text-sm font-semibold", collapsed && "lg:text-center")}>{user.name}</p>
-            <p className={cn("truncate text-xs text-muted-foreground", collapsed && "lg:hidden")}>{user.email}</p>
-          </div>
+
 
           <nav className="space-y-1" aria-label="Sidebar">
             {visibleNavItems.map((item) => {
