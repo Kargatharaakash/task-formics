@@ -247,6 +247,7 @@ export function EventsCalendar() {
           eventDisplay="block"
           dayMaxEvents
           listDayFormat={{ weekday: "long", month: "short", day: "numeric" }}
+          dayHeaderFormat={{ weekday: "short", day: "numeric", month: "numeric" }}
           buttonText={{
             today: "Today",
             month: "Month",
