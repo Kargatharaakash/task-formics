@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("USER")
+  events       Event[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Event {
+  id                  String    @id @default(cuid())
+  title               String
+  description         String?
+  startDateTime       DateTime
+  endDateTime         DateTime
+  recurrence          String    @default("NONE")
+  recurrenceEndsAt    DateTime?
+  recurrenceCount     Int?
+  excludedDatesJson   String?
+  parentEventId       String?
+  parentEvent         Event?    @relation("EventOverrides", fields: [parentEventId], references: [id], onDelete: Cascade)
+  overrides           Event[]   @relation("EventOverrides")
+  occurrenceDate      DateTime?
+  isOccurrenceOverride Boolean  @default(false)
+  createdById         String
+  createdBy           User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([createdById])
+  @@index([startDateTime])
+  @@index([recurrence])
+  @@index([parentEventId])
+  @@index([occurrenceDate])
+  @@index([isOccurrenceOverride])
+  @@index([parentEventId, occurrenceDate])
+}
