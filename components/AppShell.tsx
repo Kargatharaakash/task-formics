@@ -86,7 +86,7 @@ export function AppShell({ user, children }: AppShellProps) {
 
         <aside
           className={cn(
-            "fixed left-0 top-0 z-50 flex h-full w-72 flex-col border-r border-border/80 bg-card/95 p-4 backdrop-blur transition-transform lg:sticky lg:z-20 lg:h-screen",
+            "fixed left-0 top-0 z-50 flex h-[100dvh] w-72 flex-col border-r border-border/80 bg-card/95 p-4 backdrop-blur transition-transform lg:sticky lg:z-20 lg:h-screen",
             mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
             collapsed && "lg:w-20"
           )}
