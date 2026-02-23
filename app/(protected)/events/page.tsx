@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Edit, Eye } from "lucide-react";
 import { Role } from "@/lib/constants";
 import { formatDateTime } from "@/lib/date";
 import { db } from "@/lib/db";
@@ -73,59 +74,66 @@ export default async function EventsPage() {
       />
 
       <Card className="border-border/70">
-        <CardContent className="pt-6">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px] border-collapse text-sm">
-              <thead>
+        <CardContent className="p-0 sm:pt-6">
+          <div className="w-full overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="hidden sm:table-header-group">
                 <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
                   <th className="px-2 py-2 font-medium">Title</th>
                   <th className="px-2 py-2 font-medium">Start</th>
-                  <th className="px-2 py-2 font-medium">End</th>
-                  <th className="px-2 py-2 font-medium">Recurrence</th>
-                  {user.role === Role.ADMIN ? <th className="px-2 py-2 font-medium">Owner</th> : null}
-                  <th className="px-2 py-2 font-medium">Actions</th>
+                  <th className="hidden lg:table-cell px-2 py-2 font-medium">End</th>
+                  <th className="hidden md:table-cell px-2 py-2 font-medium">Recurrence</th>
+                  {user.role === Role.ADMIN ? <th className="hidden lg:table-cell px-2 py-2 font-medium">Owner</th> : null}
+                  <th className="px-2 py-2 font-medium text-right sm:text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {events.length === 0 ? (
                   <tr>
-                    <td colSpan={user.role === Role.ADMIN ? 6 : 5} className="px-2 py-5 text-muted-foreground">
+                    <td colSpan={user.role === Role.ADMIN ? 6 : 5} className="p-4 text-center text-muted-foreground">
                       No events found.
                     </td>
                   </tr>
                 ) : (
-                  events.map((event) => {
+                  events.map((event: any) => {
                     const canManage = user.role === Role.ADMIN || user.id === event.createdById;
 
                     return (
-                      <tr key={event.id} className="border-b border-border/50">
-                        <td className="px-2 py-2">
-                          <Link className="font-medium text-primary hover:underline" href={`/events/${event.id}`}>
+                      <tr key={event.id} className="flex flex-col sm:table-row border-b border-border/50 p-4 sm:p-0">
+                        <td className="sm:px-2 sm:py-2 mb-1 sm:mb-0">
+                          <Link className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
                             {event.title}
                           </Link>
+                          <div className="text-xs text-muted-foreground sm:hidden mt-0.5">
+                            {formatDateTime(event.startDateTime)}
+                            <br />
+                            <span className="opacity-75">{recurrenceText(event)}</span>
+                          </div>
                         </td>
-                        <td className="px-2 py-2 text-muted-foreground">{formatDateTime(event.startDateTime)}</td>
-                        <td className="px-2 py-2 text-muted-foreground">{formatDateTime(event.endDateTime)}</td>
-                        <td className="px-2 py-2">
+                        <td className="hidden sm:table-cell px-2 py-2 text-muted-foreground">{formatDateTime(event.startDateTime)}</td>
+                        <td className="hidden lg:table-cell px-2 py-2 text-muted-foreground">{formatDateTime(event.endDateTime)}</td>
+                        <td className="hidden md:table-cell px-2 py-2">
                           <Badge variant="secondary" className="whitespace-nowrap">
                             {recurrenceText(event)}
                           </Badge>
                         </td>
-                        {user.role === Role.ADMIN ? <td className="px-2 py-2">{event.createdBy.name}</td> : null}
-                        <td className="px-2 py-2">
+                        {user.role === Role.ADMIN ? <td className="hidden lg:table-cell px-2 py-2 text-muted-foreground">{event.createdBy.name}</td> : null}
+                        <td className="mt-3 sm:mt-0 sm:px-2 sm:py-2 flex justify-end">
                           <div className="flex flex-wrap gap-2">
-                            <Link className={buttonVariants({ variant: "outline", size: "sm" })} href={`/events/${event.id}`}>
-                              View
+                            <Link className={buttonVariants({ variant: "outline", size: "sm", className: "max-sm:px-2" })} href={`/events/${event.id}`}>
+                              <Eye className="h-4 w-4" />
+                              <span className="hidden sm:inline ml-2">View</span>
                             </Link>
                             {canManage ? (
                               <>
                                 <Link
-                                  className={buttonVariants({ variant: "secondary", size: "sm" })}
+                                  className={buttonVariants({ variant: "secondary", size: "sm", className: "max-sm:px-2" })}
                                   href={`/events/${event.id}/edit`}
                                 >
-                                  Edit
+                                  <Edit className="h-4 w-4" />
+                                  <span className="hidden sm:inline ml-2">Edit</span>
                                 </Link>
-                                <DeleteEventButton eventId={event.id} />
+                                <DeleteEventButton eventId={event.id} iconOnlyOnMobile />
                               </>
                             ) : null}
                           </div>

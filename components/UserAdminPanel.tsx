@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
+import { Save } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -195,32 +197,35 @@ export function UserAdminPanel({ initialUsers }: UserAdminPanelProps) {
         <CardHeader>
           <CardTitle>All Users</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px] border-collapse text-sm">
-              <thead>
+        <CardContent className="p-0 sm:p-6">
+          <div className="w-full overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="hidden sm:table-header-group">
                 <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
                   <th className="px-3 py-2 font-medium">Name</th>
-                  <th className="px-3 py-2 font-medium">Email</th>
-                  <th className="px-3 py-2 font-medium">Role</th>
-                  <th className="px-3 py-2 font-medium">Created</th>
-                  <th className="px-3 py-2 font-medium">Actions</th>
+                  <th className="hidden md:table-cell px-3 py-2 font-medium">Email</th>
+                  <th className="hidden sm:table-cell px-3 py-2 font-medium">Role</th>
+                  <th className="hidden lg:table-cell px-3 py-2 font-medium">Created</th>
+                  <th className="px-3 py-2 font-medium text-right sm:text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b border-border/60 align-top">
-                    <td className="px-3 py-2">
+                  <tr key={user.id} className="flex flex-col sm:table-row border-b border-border/60 p-4 sm:p-0">
+                    <td className="sm:px-3 sm:py-2 mb-2 sm:mb-0">
+                      <Label className="sm:hidden mb-1 block text-xs text-muted-foreground">Name</Label>
                       <Input value={user.name} onChange={(event) => updateRow(user.id, "name", event.target.value)} />
                     </td>
-                    <td className="px-3 py-2">
+                    <td className="sm:px-3 sm:py-2 mb-2 sm:mb-0 md:table-cell">
+                      <Label className="sm:hidden mb-1 block text-xs text-muted-foreground">Email</Label>
                       <Input
                         type="email"
                         value={user.email}
                         onChange={(event) => updateRow(user.id, "email", event.target.value)}
                       />
                     </td>
-                    <td className="px-3 py-2">
+                    <td className="sm:px-3 sm:py-2 mb-3 sm:mb-0 sm:table-cell">
+                      <Label className="sm:hidden mb-1 block text-xs text-muted-foreground">Role</Label>
                       <select
                         value={user.role}
                         onChange={(event) => updateRow(user.id, "role", event.target.value)}
@@ -230,15 +235,17 @@ export function UserAdminPanel({ initialUsers }: UserAdminPanelProps) {
                         <option value={Role.ADMIN}>ADMIN</option>
                       </select>
                     </td>
-                    <td className="px-3 py-2 text-muted-foreground">{new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td className="px-3 py-2">
+                    <td className="hidden lg:table-cell px-3 py-2 text-muted-foreground">{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td className="sm:px-3 sm:py-2 flex justify-end">
                       <Button
                         type="button"
                         onClick={() => saveUser(user.id)}
                         disabled={savingUserId === user.id}
                         size="sm"
+                        className="max-sm:w-full"
                       >
-                        {savingUserId === user.id ? "Saving..." : "Save"}
+                        <Save className="h-4 w-4 mr-2 sm:hidden" />
+                        {savingUserId === user.id ? "Saving..." : "Save User"}
                       </Button>
                     </td>
                   </tr>
