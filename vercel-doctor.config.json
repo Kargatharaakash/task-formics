@@ -1,7 +1,0 @@
-{
-    "ignore": {
-        "rules": [
-            "vercel-doctor/vercel-consider-fluid-compute"
-        ]
-    }
-}
