@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { parseEventInput } from "@/lib/events";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Params = {
   params: Promise<{
@@ -14,25 +16,22 @@ type Params = {
 };
 
 export async function GET(_request: Request, { params }: Params) {
-  const user = await getCurrentUser();
+  const { id } = await params;
+  const [user, event] = await Promise.all([
+    getCurrentUser(),
+    db.event.findUnique({
+      where: { id },
+      include: {
+        createdBy: {
+          select: { id: true, name: true, email: true }
+        }
+      }
+    })
+  ]);
+
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const { id } = await params;
-
-  const event = await db.event.findUnique({
-    where: { id },
-    include: {
-      createdBy: {
-        select: {
-          id: true,
-          name: true,
-          email: true
-        }
-      }
-    }
-  });
 
   if (!event) {
     return NextResponse.json({ error: "Event not found." }, { status: 404 });

@@ -6,6 +6,8 @@ import { hashPassword } from "@/lib/auth/password";
 import { db } from "@/lib/db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -16,17 +18,11 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const users = await db.user.findMany({
+  const fetchUsers = () => db.user.findMany({
     orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true
-    }
+    select: { id: true, name: true, email: true, role: true, createdAt: true, updatedAt: true }
   });
+  const users = await fetchUsers();
 
   return NextResponse.json({ users });
 }

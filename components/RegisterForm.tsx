@@ -90,7 +90,7 @@ export function RegisterForm() {
             {isLoading ? "Creating account..." : "Register"}
           </Button>
 
-          <Link href="/login" className={buttonVariants({ variant: "outline", className: "w-full" })}>
+          <Link prefetch={false} href="/login" className={buttonVariants({ variant: "outline", className: "w-full" })}>
             Already have an account
           </Link>
 

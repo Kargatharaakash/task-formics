@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { parseEventInput } from "@/lib/events";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET(request: Request) {
   const user = await getCurrentUser();
@@ -20,8 +22,8 @@ export async function GET(request: Request) {
     user.role === Role.ADMIN && scope !== "mine"
       ? {}
       : {
-          createdById: user.id
-        };
+        createdById: user.id
+      };
 
   const events = await db.event.findMany({
     where: {

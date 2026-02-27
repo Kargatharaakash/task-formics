@@ -145,6 +145,7 @@ export function OccurrenceForm({ eventId, sourceEventId, occurrenceStart, initia
               {isLoading ? "Saving..." : "Save occurrence"}
             </Button>
             <Link
+              prefetch={false}
               href={`/events/${eventId}`}
               className={buttonVariants({
                 variant: "outline"

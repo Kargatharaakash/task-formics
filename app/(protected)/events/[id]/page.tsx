@@ -43,9 +43,11 @@ function recurrenceText(event: {
 }
 
 export default async function EventDetailPage({ params, searchParams }: EventDetailPageProps) {
-  const user = await requireUser();
-  const { id } = await params;
-  const query = await searchParams;
+  const [user, { id }, query] = await Promise.all([
+    requireUser(),
+    params,
+    searchParams
+  ]);
   const selectedOccurrenceStartRaw = query.occurrenceStart;
 
   const event = await db.event.findUnique({
@@ -99,12 +101,12 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
         subtitle={`Owned by ${event.createdBy.name}`}
         actions={
           <>
-            <Link className={buttonVariants({ variant: "outline" })} href="/events">
+            <Link prefetch={false} className={buttonVariants({ variant: "outline" })} href="/events">
               Back
             </Link>
             {canManage ? (
               <>
-                <Link className={buttonVariants({ variant: "secondary" })} href={`/events/${event.id}/edit`}>
+                <Link prefetch={false} className={buttonVariants({ variant: "secondary" })} href={`/events/${event.id}/edit`}>
                   Edit
                 </Link>
                 <DeleteEventButton eventId={event.id} redirectTo="/events" size="default" />
@@ -122,6 +124,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
             </p>
             <div className="flex flex-wrap gap-2">
               <Link
+                prefetch={false}
                 className={buttonVariants({ variant: "secondary" })}
                 href={`/events/${event.id}/occurrence/edit?occurrenceStart=${encodeURIComponent(
                   selectedOccurrenceStart.toISOString()
@@ -208,6 +211,7 @@ export default async function EventDetailPage({ params, searchParams }: EventDet
                         <td className="px-2 py-2">
                           <div className="flex flex-wrap gap-2">
                             <Link
+                              prefetch={false}
                               className={buttonVariants({ variant: "outline", size: "sm" })}
                               href={`/events/${event.id}/occurrence/edit?occurrenceStart=${encodeURIComponent(
                                 occurrence.occurrenceStart.toISOString()

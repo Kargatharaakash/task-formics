@@ -5,6 +5,8 @@ import { hashPassword } from "@/lib/auth/password";
 import { db } from "@/lib/db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -12,17 +14,11 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const current = await db.user.findUnique({
+  const fetchCurrent = () => db.user.findUnique({
     where: { id: user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true
-    }
+    select: { id: true, name: true, email: true, role: true, createdAt: true, updatedAt: true }
   });
+  const current = await fetchCurrent();
 
   return NextResponse.json({ user: current });
 }

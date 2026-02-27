@@ -13,8 +13,7 @@ type EditEventPageProps = {
 };
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
-  const user = await requireUser();
-  const { id } = await params;
+  const [user, { id }] = await Promise.all([requireUser(), params]);
 
   const event = await db.event.findUnique({ where: { id } });
   if (!event) {

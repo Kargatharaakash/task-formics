@@ -50,6 +50,3 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   };
 }
 
-export function isAdmin(user: SessionUser): boolean {
-  return user.role === Role.ADMIN;
-}

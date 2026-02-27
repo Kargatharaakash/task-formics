@@ -6,6 +6,8 @@ import { hashPassword } from "@/lib/auth/password";
 import { db } from "@/lib/db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Params = {
   params: Promise<{
@@ -14,27 +16,24 @@ type Params = {
 };
 
 export async function GET(_request: Request, { params }: Params) {
-  const currentUser = await getCurrentUser();
+  const { id } = await params;
+  const [currentUser, user] = await Promise.all([
+    getCurrentUser(),
+    db.user.findUnique({
+      where: { id },
+      select: {
+        id: true, name: true, email: true, role: true, createdAt: true, updatedAt: true
+      }
+    })
+  ]);
+
   if (!currentUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = await params;
   if (currentUser.role !== Role.ADMIN && currentUser.id !== id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-
-  const user = await db.user.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      createdAt: true,
-      updatedAt: true
-    }
-  });
 
   if (!user) {
     return NextResponse.json({ error: "User not found." }, { status: 404 });

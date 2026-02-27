@@ -1,6 +1,6 @@
 # Event Management App (Next.js)
 
-Minimal but complete event management app built with Next.js App Router, Next.js API route handlers, Prisma, and SQLite.
+Event management app built with Next.js App Router, Next.js API route handlers, Prisma, and SQLite.
 
 ## What is implemented
 
@@ -50,7 +50,7 @@ Minimal but complete event management app built with Next.js App Router, Next.js
 - `id`, `name`, `email`, `passwordHash`, `role`, `createdAt`, `updatedAt`
 - `Event`
 - Base fields: `id`, `title`, `description`, `startDateTime`, `endDateTime`, `recurrence`, `recurrenceEndsAt`, `recurrenceCount`, `createdById`, `createdAt`, `updatedAt`
-- Bonus recurrence fields: `excludedDatesJson`, `parentEventId`, `occurrenceDate`, `isOccurrenceOverride`
+- recurrence fields: `excludedDatesJson`, `parentEventId`, `occurrenceDate`, `isOccurrenceOverride`
 
 Schema file: `prisma/schema.prisma`
 
@@ -162,7 +162,7 @@ App runs on `http://localhost:3000`.
 - Loading states are implemented in forms/buttons and route-level skeleton loading screens.
 - Black/white design system with dark mode toggle is included (system-aware via `next-themes`).
 
-## Bonus implemented
+## more implemented
 
 - Edit single occurrence of recurring event
   - From event details or calendar click, open occurrence-specific editor.

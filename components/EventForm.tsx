@@ -300,6 +300,7 @@ export function EventForm({ mode, initial, defaultStartDateTime, defaultEndDateT
               {isLoading ? "Saving..." : mode === "create" ? "Create event" : "Update event"}
             </Button>
             <Link
+              prefetch={false}
               className={buttonVariants({ variant: "outline" })}
               href={mode === "create" ? "/events" : `/events/${initial?.id}`}
             >

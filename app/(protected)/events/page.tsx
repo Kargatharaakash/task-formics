@@ -63,10 +63,10 @@ export default async function EventsPage() {
         }
         actions={
           <>
-            <Link className={buttonVariants({ variant: "outline" })} href="/calendar">
+            <Link prefetch={false} className={buttonVariants({ variant: "outline" })} href="/calendar">
               Calendar
             </Link>
-            <Link className={buttonVariants()} href="/events/new">
+            <Link prefetch={false} className={buttonVariants()} href="/events/new">
               Create event
             </Link>
           </>
@@ -101,7 +101,7 @@ export default async function EventsPage() {
                     return (
                       <tr key={event.id} className="flex flex-col sm:table-row border-b border-border/50 p-4 sm:p-0">
                         <td className="sm:px-2 sm:py-2 mb-1 sm:mb-0">
-                          <Link className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
+                          <Link prefetch={false} className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
                             {event.title}
                           </Link>
                           <div className="text-xs text-muted-foreground sm:hidden mt-0.5">
@@ -120,13 +120,14 @@ export default async function EventsPage() {
                         {user.role === Role.ADMIN ? <td className="hidden lg:table-cell px-2 py-2 text-muted-foreground">{event.createdBy.name}</td> : null}
                         <td className="mt-3 sm:mt-0 sm:px-2 sm:py-2 flex justify-end">
                           <div className="flex flex-wrap gap-2">
-                            <Link className={buttonVariants({ variant: "outline", size: "sm", className: "max-sm:px-2" })} href={`/events/${event.id}`}>
+                            <Link prefetch={false} className={buttonVariants({ variant: "outline", size: "sm", className: "max-sm:px-2" })} href={`/events/${event.id}`}>
                               <Eye className="h-4 w-4" />
                               <span className="hidden sm:inline ml-2">View</span>
                             </Link>
                             {canManage ? (
                               <>
                                 <Link
+                                  prefetch={false}
                                   className={buttonVariants({ variant: "secondary", size: "sm", className: "max-sm:px-2" })}
                                   href={`/events/${event.id}/edit`}
                                 >

@@ -47,10 +47,10 @@ export default async function DashboardPage() {
         }
         actions={
           <>
-            <Link className={buttonVariants({ variant: "outline" })} href="/calendar">
+            <Link prefetch={false} className={buttonVariants({ variant: "outline" })} href="/calendar">
               Open calendar
             </Link>
-            <Link className={buttonVariants()} href="/events/new">
+            <Link prefetch={false} className={buttonVariants()} href="/events/new">
               Create event
             </Link>
           </>
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
       <Card className="border-border/70">
         <div className="flex items-center justify-between gap-3 p-6 pb-2">
           <h2 className="text-lg font-semibold leading-none tracking-tight">Upcoming events</h2>
-          <Link href="/events" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+          <Link prefetch={false} href="/events" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
             View all
           </Link>
         </div>
@@ -111,7 +111,7 @@ export default async function DashboardPage() {
                   upcomingEvents.map((event: any) => (
                     <tr key={event.id} className="flex flex-col sm:table-row border-b border-border/50 p-4 sm:p-0">
                       <td className="sm:px-2 sm:py-2 mb-1 sm:mb-0">
-                        <Link className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
+                        <Link prefetch={false} className="font-semibold sm:font-medium text-primary hover:underline" href={`/events/${event.id}`}>
                           {event.title}
                         </Link>
                         <div className="text-xs text-muted-foreground sm:hidden mt-0.5">

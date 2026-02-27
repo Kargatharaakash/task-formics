@@ -18,9 +18,11 @@ type EditOccurrencePageProps = {
 };
 
 export default async function EditOccurrencePage({ params, searchParams }: EditOccurrencePageProps) {
-  const user = await requireUser();
-  const { id } = await params;
-  const search = await searchParams;
+  const [user, { id }, search] = await Promise.all([
+    requireUser(),
+    params,
+    searchParams
+  ]);
 
   const occurrenceStartRaw = search.occurrenceStart;
   const occurrenceStart = occurrenceStartRaw ? new Date(occurrenceStartRaw) : null;
